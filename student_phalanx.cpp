@@ -62,6 +62,7 @@ int main() {
 #include <vector>
 #include <string>
 #include <sstream>
+#include <algorithm>
 using namespace std;
  
 // 检查坐标是否在矩阵范围内
@@ -81,12 +82,19 @@ int main() {
     // 读取矩阵数据
     for (int i = 0; i < n; ++i) {
         getline(cin, line);
+
+        // Retry logic for incomplete input
+        while (line.empty() || count(line.begin(), line.end(), ',') != m - 1) {
+            cout << "Invalid input for row " << i + 1 << ". Please re-enter: ";
+            getline(cin, line);
+        }
+
         stringstream ss(line);
         string cell;
         for (int j = 0; j < m; ++j) {
             getline(ss, cell, ',');
             if (cell == "M") {
-                g[i][j] = 1;  // 'M' 表示男生，用1来表示
+                g[i][j] = 1; // 'M' represents male
             }
         }
     }
@@ -115,6 +123,7 @@ int main() {
     }
  
     cout << mx << endl;  // 输出结果
+    system("pause");
     return 0;
 }
 
